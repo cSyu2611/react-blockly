@@ -47,7 +47,7 @@ class ToolBox extends React.Component {
     // };
 
     Blockly.Blocks["hyoji"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "%1 %2 %3",
           args0: [
@@ -75,7 +75,7 @@ class ToolBox extends React.Component {
         });
       }
     };
-    Blockly.JavaScript["hyoji"] = function(block) {
+    Blockly.JavaScript["hyoji"] = function (block) {
       var send_text = Blockly.JavaScript.valueToCode(
         block,
         "TEXT",
@@ -110,7 +110,7 @@ class ToolBox extends React.Component {
 
     /* --------POS(X,Y)------------*/
     Blockly.Blocks["pos_x_y_"] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput().appendField("POS(");
         this.appendDummyInput().appendField(
           new Blockly.FieldTextInput("X"),
@@ -140,7 +140,7 @@ class ToolBox extends React.Component {
 
     /* --------author(X,Y)------------*/
     Blockly.Blocks["author_x_y_"] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput().appendField("author(");
         this.appendDummyInput().appendField(
           new Blockly.FieldTextInput("X"),
@@ -158,7 +158,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["author_x_y_"] = function(block) {
+    Blockly.JavaScript["author_x_y_"] = function (block) {
       /*  var Text_morphemenumber = Blockly.JavaScript.valueToCode(block, 'MorphemeNumber', Blockly.JavaScript.ORDER_ATOMIC);
   var Text_wordclass = Blockly.JavaScript.valueToCode(block, 'WordClass', Blockly.JavaScript.ORDER_ATOMIC);
 */
@@ -170,7 +170,7 @@ class ToolBox extends React.Component {
 
     /* --------textdata------------*/
     Blockly.Blocks["textdata"] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput().appendField("(");
         this.appendDummyInput().appendField(
           new Blockly.FieldTextInput("text"),
@@ -182,7 +182,7 @@ class ToolBox extends React.Component {
         this.setColour(330);
       }
     };
-    Blockly.JavaScript["textdata"] = function(block) {
+    Blockly.JavaScript["textdata"] = function (block) {
       var td = block.getFieldValue("Td");
       var code = td;
       return [code, Blockly.JavaScript.ORDER_ATOMIC];
@@ -219,7 +219,7 @@ class ToolBox extends React.Component {
 
     /* -------- Query Creat ------------*/
     Blockly.Blocks["query_creat"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "%1(%2,%3)",
           args0: [
@@ -249,7 +249,7 @@ class ToolBox extends React.Component {
         });
       }
     };
-    Blockly.JavaScript["query_creat"] = function(block) {
+    Blockly.JavaScript["query_creat"] = function (block) {
       var temp_pattern = block.getFieldValue("PATTERN");
       var temp_x = block.getFieldValue("X");
       var temp_y = block.getFieldValue("Y");
@@ -262,9 +262,54 @@ class ToolBox extends React.Component {
       return [code, Blockly.JavaScript.ORDER_ATOMIC];
     };
 
+    /* -------- Query Creat ------------*/
+    Blockly.Blocks["query_creat"] = {
+      init: function () {
+        this.jsonInit({
+          message0: "%1(%2,%3)",
+          args0: [
+            {
+              type: "field_input",
+              name: "PATTERN",
+              text: "Predicate",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "X",
+              text: "X",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "Y",
+              text: "Y",
+              check: "String",
+            },
+          ],
+          message1: "%1",
+          args1: [{ type: "input_statement", name: "DO" }],
+          output: String,
+          colour: 120,
+        });
+      },
+    };
+    Blockly.JavaScript["query_creat"] = function (block) {
+      var temp_pattern = block.getFieldValue("PATTERN");
+      var temp_x = block.getFieldValue("X");
+      var temp_y = block.getFieldValue("Y");
+      var temp_query = temp_pattern + "(" + temp_x + "," + temp_y + "):-";
+
+      var test = Blockly.JavaScript.statementToCode(block, "DO");
+
+      var code = temp_query + test;
+      // return code;
+      return [code, Blockly.JavaScript.ORDER_ATOMIC];
+    };
+
     /* --------not------------*/
     Blockly.Blocks["not"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "not %1",
           args0: [
@@ -279,7 +324,7 @@ class ToolBox extends React.Component {
         });
       }
     };
-    Blockly.JavaScript["not"] = function(block) {
+    Blockly.JavaScript["not"] = function (block) {
       var temp_query = Blockly.JavaScript.statementToCode(block, "DO");
       var code = "not(" + temp_query + ")";
       return code;
@@ -287,7 +332,7 @@ class ToolBox extends React.Component {
 
     /* --------and------------*/
     Blockly.Blocks["and"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "and",
           previousStatement: null,
@@ -296,14 +341,14 @@ class ToolBox extends React.Component {
         });
       }
     };
-    Blockly.JavaScript["and"] = function(block) {
+    Blockly.JavaScript["and"] = function (block) {
       var code = ",";
       return code;
     };
 
     /* --------(A;B)------------*/
     Blockly.Blocks["kakko"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "(%1;%2)",
           args0: [
@@ -324,7 +369,7 @@ class ToolBox extends React.Component {
         });
       }
     };
-    Blockly.JavaScript["kakko"] = function(block) {
+    Blockly.JavaScript["kakko"] = function (block) {
       var statements_A = Blockly.JavaScript.statementToCode(block, "A");
       var statements_B = Blockly.JavaScript.statementToCode(block, "B");
       var code = "(" + statements_A + ";" + statements_B + ")";
@@ -333,7 +378,7 @@ class ToolBox extends React.Component {
 
     /* --------write_semantic(semantic)------------*/
     Blockly.Blocks["write_semantic"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "semantic %1",
           args0: [
@@ -351,7 +396,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["write_semantic"] = function(block) {
+    Blockly.JavaScript["write_semantic"] = function (block) {
       var temp_sentence = block.getFieldValue("SEMANTIC");
       var code = "semantic(" + temp_sentence + ")";
       return code;
@@ -360,7 +405,7 @@ class ToolBox extends React.Component {
     /* --------write_sentence(sentence)------------*/
 
     Blockly.Blocks["write_sentence"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "sentence %1",
           args0: [
@@ -378,7 +423,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["write_sentence"] = function(block) {
+    Blockly.JavaScript["write_sentence"] = function (block) {
       var temp_sentence = block.getFieldValue("SENTENCE");
       var code = "sentence(" + temp_sentence + ")";
       return code;
@@ -387,7 +432,7 @@ class ToolBox extends React.Component {
     /* --------type(node?(X0),wordClass(verb...))------------*/
 
     Blockly.Blocks["type"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "type(%1,%2)",
           args0: [
@@ -411,7 +456,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["type"] = function(block) {
+    Blockly.JavaScript["type"] = function (block) {
       var temp_node = block.getFieldValue("NODE");
       var temp_wordclass = block.getFieldValue("WORDCLASS");
       var code = "type(" + temp_node + "," + temp_wordclass + ")";
@@ -421,7 +466,7 @@ class ToolBox extends React.Component {
     /* --------role(X1,動作主):role(node,target)------------*/
 
     Blockly.Blocks["role"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "role(%1,%2)",
           args0: [
@@ -445,7 +490,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["role"] = function(block) {
+    Blockly.JavaScript["role"] = function (block) {
       var temp_node = block.getFieldValue("NODE");
       var temp_target = block.getFieldValue("TARGET");
       var code = "role(" + temp_node + "," + temp_target + ")";
@@ -454,7 +499,7 @@ class ToolBox extends React.Component {
 
     /* --------main(X0,書く):main(node,target)------------*/
     Blockly.Blocks["main"] = {
-      init: function() {
+      init: function () {
         this.jsonInit({
           message0: "main(%1,%2)",
           args0: [
@@ -478,7 +523,7 @@ class ToolBox extends React.Component {
       }
     };
 
-    Blockly.JavaScript["main"] = function(block) {
+    Blockly.JavaScript["main"] = function (block) {
       var temp_node = block.getFieldValue("NODE");
       var temp_target = block.getFieldValue("TARGET");
       var code = "main(" + temp_node + "," + temp_target + ")";
@@ -487,7 +532,7 @@ class ToolBox extends React.Component {
 
     /* -------- Query Concept ------------*/
     Blockly.Blocks["query_concept"] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput()
           .appendField("Xの概念:")
           .appendField(new Blockly.FieldTextInput("例)動作主"), "x_concept");
@@ -502,11 +547,138 @@ class ToolBox extends React.Component {
         this.setHelpUrl("");
       }
     };
-    Blockly.JavaScript["query_concept"] = function(block) {
+    Blockly.JavaScript["query_concept"] = function (block) {
       // var text_x_concept = block.getFieldValue("x_concept");
       // var text_y_concept = block.getFieldValue("y_concept");
       // TODO: Assemble JavaScript into code variable.
       var code = "...;\n";
+      return code;
+    };
+    /* --------head(品詞1,品詞2):head(X,Y)------------*/
+    Blockly.Blocks["head"] = {
+      init: function () {
+        this.jsonInit({
+          message0: "head(%1,%2)",
+          args0: [
+            {
+              type: "field_input",
+              name: "ARG1",
+              text: "arg1",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "ARG2",
+              text: "arg2",
+              check: "String",
+            },
+          ],
+          previousStatement: null,
+          nextStatement: null,
+          colour: 270,
+        });
+      },
+    };
+    Blockly.JavaScript["head"] = function (block) {
+      var arg1 = block.getFieldValue("ARG1");
+      var arg2 = block.getFieldValue("ARG2");
+      var code = "head(" + arg1 + "," + arg2 + ")";
+      return code;
+    };
+
+    /* --------deprel(品詞1,品詞2):deprel(X,Y)------------*/
+    Blockly.Blocks["deprel"] = {
+      init: function () {
+        this.jsonInit({
+          message0: "deprel(%1,%2)",
+          args0: [
+            {
+              type: "field_input",
+              name: "ARG1",
+              text: "arg1",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "ARG2",
+              text: "arg2",
+              check: "String",
+            },
+          ],
+          previousStatement: null,
+          nextStatement: null,
+          colour: 270,
+        });
+      },
+    };
+    Blockly.JavaScript["deprel"] = function (block) {
+      var arg1 = block.getFieldValue("ARG1");
+      var arg2 = block.getFieldValue("ARG2");
+      var code = "deprel(" + arg1 + "," + arg2 + ")";
+      return code;
+    };
+
+    /* --------upos(品詞1,品詞2):upos(X,Y)------------*/
+    Blockly.Blocks["upos"] = {
+      init: function () {
+        this.jsonInit({
+          message0: "upos(%1,%2)",
+          args0: [
+            {
+              type: "field_input",
+              name: "ARG1",
+              text: "arg1",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "ARG2",
+              text: "arg2",
+              check: "String",
+            },
+          ],
+          previousStatement: null,
+          nextStatement: null,
+          colour: 270,
+        });
+      },
+    };
+    Blockly.JavaScript["upos"] = function (block) {
+      var arg1 = block.getFieldValue("ARG1");
+      var arg2 = block.getFieldValue("ARG2");
+      var code = "upos(" + arg1 + "," + arg2 + ")";
+      return code;
+    };
+
+    /* --------text(品詞1,品詞2):text(X,Y)------------*/
+    Blockly.Blocks["text"] = {
+      init: function () {
+        this.jsonInit({
+          message0: "text(%1,%2)",
+          args0: [
+            {
+              type: "field_input",
+              name: "ARG1",
+              text: "arg1",
+              check: "String",
+            },
+            {
+              type: "field_input",
+              name: "ARG2",
+              text: "arg2",
+              check: "String",
+            },
+          ],
+          previousStatement: null,
+          nextStatement: null,
+          colour: 270,
+        });
+      },
+    };
+    Blockly.JavaScript["text"] = function (block) {
+      var arg1 = block.getFieldValue("ARG1");
+      var arg2 = block.getFieldValue("ARG2");
+      var code = "text(" + arg1 + "," + arg2 + ")";
       return code;
     };
   }
@@ -539,7 +711,6 @@ class ToolBox extends React.Component {
           {/* 境界線 */}
           {/* <sep gap="8"></sep> */}
           <category name="NL" colour="300">
-            {/* <block type="pos_x_y_"></block> */}
             <block type="author_x_y_"></block>
             <block type="hyoji"></block>
             <block type="textdata"></block>
@@ -559,6 +730,12 @@ class ToolBox extends React.Component {
             <block type="type"></block>
             <block type="role"></block>
             <block type="main"></block>
+          </category>
+          <category name="StanzaParts" colour="180">
+            <block type="head"></block>
+            <block type="deprel"></block>
+            <block type="upos"></block>
+            <block type="text"></block>
           </category>
         </xml>
       </div>
