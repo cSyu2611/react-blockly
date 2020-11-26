@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Blockly from "node-blockly/browser";
+import Select from 'react-select'
 
 import {
   updateParsedParam,
   updateWorkSpace,
-  updateApiResult
+  updateApiResult,
+  setLanguage
 } from "../store/actions";
 
 import "../css/ControlPanel.css";
@@ -39,15 +41,22 @@ class ControlPanel extends Component {
     );
     let parsedCode = JSON.parse(code);
     console.log(parsedCode);
-    Axios.get(`${_env.localAPI}`, {
-      params: {
-        query: parsedCode.send_query,
-        text: parsedCode.send_text
-      }
-    }).then(res => {
-      console.log(res.data);
-      this.props.updateApiResult(res.data);
-    });
+    // 日本語版なら
+    if (this.props.languageState.language === 'ja') {
+      Axios.get(`${_env.localAPI}`, {
+        params: {
+          query: parsedCode.send_query,
+          text: parsedCode.send_text
+        }
+      }).then(res => {
+        console.log(res.data);
+        this.props.updateApiResult(res.data);
+      });
+    }
+    // 英語版なら
+    else if (this.props.languageState.language === 'en') {
+
+    }
     // if (code !== "") {
     //   let tmp = JSON.parse(code);
     //   this.props.updateParsedParam(tmp);
@@ -82,6 +91,12 @@ class ControlPanel extends Component {
 
     console.log(myBlockXml);
   }
+
+  options = [
+
+    { value: 'en', label: 'English' },
+    { value: 'ja', label: '日本語' }
+  ]
 
   render() {
     return (
@@ -128,6 +143,7 @@ class ControlPanel extends Component {
             保存
           </button>
         </div>
+        <Select className="languageSelect" options={this.options} defaultInputValue={'日本語'} defaultValue={'ja'} onChange={obj => this.props.setLanguage(obj.value)} />
       </div>
     );
   }
@@ -135,13 +151,15 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => ({
   workSpaceState: state.workSpaceState,
-  parsedParamState: state.parsedParamState
+  parsedParamState: state.parsedParamState,
+  languageState: state.languageState
 });
 
 const mapDispatchToProps = dispatch => ({
   updateParsedParam: parsedParam => dispatch(updateParsedParam(parsedParam)),
   updateWorkSpace: workSpace => dispatch(updateWorkSpace(workSpace)),
-  updateApiResult: apiResult => dispatch(updateApiResult(apiResult))
+  updateApiResult: apiResult => dispatch(updateApiResult(apiResult)),
+  setLanguage: language => dispatch(setLanguage(language))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
