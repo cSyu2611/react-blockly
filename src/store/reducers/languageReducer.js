@@ -9,6 +9,7 @@ const languageState = (state = initialState, action) => {
     switch(action.type){
         case SET_LANGUAGE:
             nextState.language = action.language;
+            console.log(nextState.language)
             break;
         default:
             return state;

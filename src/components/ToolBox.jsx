@@ -81,7 +81,6 @@ class ToolBox extends React.Component {
         "TEXT",
         Blockly.JavaScript.ORDER_ATOMIC
       );
-      console.log(send_text);
       var send_query = Blockly.JavaScript.valueToCode(
         block,
         "QUERY",
@@ -92,7 +91,7 @@ class ToolBox extends React.Component {
       {
        "api_select": "${api_select}",
        "send_text": "${send_text}",
-       "send_query":"${send_query}"
+       "send_query":"${send_query + "."}"
       }
       `;
     };

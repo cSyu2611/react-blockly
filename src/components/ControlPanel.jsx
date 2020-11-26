@@ -39,11 +39,12 @@ class ControlPanel extends Component {
     let code = Blockly.JavaScript.workspaceToCode(
       this.props.workSpaceState.workSpace
     );
+    console.log(code)
     let parsedCode = JSON.parse(code);
     console.log(parsedCode);
     // 日本語版なら
     if (this.props.languageState.language === 'ja') {
-      Axios.get(`${_env.localAPI}`, {
+      Axios.get(`${_env.localAPIJA}`, {
         params: {
           query: parsedCode.send_query,
           text: parsedCode.send_text
@@ -55,7 +56,16 @@ class ControlPanel extends Component {
     }
     // 英語版なら
     else if (this.props.languageState.language === 'en') {
-
+      console.log("英語版")
+      Axios.get(`${_env.localAPI}`, {
+        params: {
+          query: parsedCode.send_query,
+          text: parsedCode.send_text
+        }
+      }).then(res => {
+        console.log(res.data);
+        this.props.updateApiResult(res.data);
+      });
     }
     // if (code !== "") {
     //   let tmp = JSON.parse(code);
